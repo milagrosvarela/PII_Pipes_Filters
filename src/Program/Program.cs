@@ -14,12 +14,15 @@ namespace CompAndDel
             PictureProvider provider = new PictureProvider();
             IPicture beer = provider.GetPicture(@"beer.jpg");
             
+            FilterSave filterSave = new FilterSave();
             FilterGreyscale filterGrey = new FilterGreyscale();
             FilterNegative filterNegative = new FilterNegative();
 
             PipeNull pipeNull = new PipeNull();
-            PipeSerial pipeSerialG = new PipeSerial(filterNegative, pipeNull);
+            
+            PipeSerial pipeSerialG = new PipeSerial(filterGrey, pipeNull);
             PipeSerial pipeSerialN = new PipeSerial(filterNegative, pipeSerialG);
+            PipeSerial pipeSerialS = new PipeSerial(filterSave, pipeSerialN);
 
             beer = pipeSerialG.Send(beer);
 
